@@ -19,7 +19,7 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
 
     model = {'W1': w1, 'b1': b1, 'W2': w2, 'b2': b2}
     # print(model)
-    H = np.array([0.0 for i in range(nn_hdim)])
+    A = np.array([0.0 for i in range(nn_hdim)])
     z = np.zeros_like(X)
     y_pred = np.zeros_like(X)
     # onehot encode
@@ -29,11 +29,11 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
     for x in range(len(X)):
         for i in range(nn_hdim):
             for k in range(len(model['W1'][0])):
-                H[i] = H[i] + np.multiply(model['W1'][i][k], X[x][k])
-            H[i] = math.tanh(H[i] + b1[i])
+                A[i] = A[i] + np.multiply(model['W1'][i][k], X[x][k])
+            A[i] = A[i] + b1[i]
         for l in range(len(model['W2'])):
             for m in range(len(model['W2'][0])):
-                z[x][l] = np.add(z[x][l], np.multiply(model['W2'][l][m], H[l]))
+                z[x][l] = np.add(z[x][l], np.multiply(model['W2'][l][m], math.tanh(A[l])))
             y_pred[x][l] = math.e ** (z[x][l] + b2[l])
         sum = np.sum(y_pred[x])
 
@@ -43,6 +43,21 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
         for l in range(len(model['W2'])):
             loss=loss + (y_vector[x][l] * math.log(y_pred[x][l]))
         print(y_pred[x],y[x],y_vector[x],loss)
+        dL_dy= dL_dy(y_pred,y_vector)
     loss = (-1)*loss / input_size
     print(loss)
+
     return model
+
+def dL_dy(y_pred,y_vector):
+    print("dL_dy")
+def dL_da(a,w2,dl_dy):
+    print("dL_da")
+def dL_dw2(h):
+    print("dL_dw2")
+def dL_db2():
+    print("dL_db2")
+def dL_dw1(x):
+    print("dL_dw1")
+def dL_db1():
+    print("dL_db1")
