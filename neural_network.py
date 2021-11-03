@@ -1,6 +1,7 @@
 
 
 def calculate_loss(model, X, y):
+
     print(model, X, y)
 def predict(model, x):
     print(model, x)
