@@ -37,7 +37,7 @@ def predict(model, X):
     return y_res
 
 
-def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
+def build_model(X, y, nn_hdim, num_passes=2000, print_loss=False):
     input_size = len(X[0])
     output_size = len(X[0])
     w1 = np.random.rand(input_size, nn_hdim)
