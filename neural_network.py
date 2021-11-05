@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.utils.extmath import softmax
 
 
 def fun(e):
@@ -31,7 +32,6 @@ def predict(model, X):
         z = np.matmul(H, model['W2']) + model['b2']
         y_pred[x] = z
     y_res = np.array([1 if (y_pred[i][1] > y_pred[i][0]) else 0 for i in range(len(X))])
-    print(y_res)
     return y_res
 
 
@@ -45,7 +45,7 @@ def random_model(input_size, nn_hdim):
     return model
 
 
-def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
+def build_model(X, y, nn_hdim, num_passes=1, print_loss=False):
     input_size = len(X[0])
     output_size = len(X[0])
     model = random_model(input_size, nn_hdim)
@@ -55,14 +55,12 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
     for passes in range(num_passes):
         loss = 0
         y_pred = np.zeros_like(X)
+
         for x in range(len(X)):
             A = np.matmul(X[x], model['W1']) + model['b1']
             H = tanhVec(A)
             z = np.matmul(H, model['W2']) + model['b2']
-            y_pred[x] = expoVec(z)
-            sum = np.sum(y_pred[x])
-            for l in range(output_size):
-                y_pred[x][l] = y_pred[x][l] / sum
+            y_pred[x] = np.squeeze(softmax(z[np.newaxis]))
 
             for l in range(output_size):
                 if y_pred[x][l] != 0.0:
@@ -73,7 +71,8 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
 
         if print_loss:
             loss = (-1) * loss / input_size
-            # print(loss)
+            print(loss)
+
     return model
 
 
