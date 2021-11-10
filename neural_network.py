@@ -5,18 +5,18 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.utils.extmath import softmax
 
 
-def fun(e):
+def fun_tanh(e):
     return math.tanh(e)
 
 
-tanhVec = np.vectorize(fun)
+tanhVec = np.vectorize(fun_tanh)
 
 
-def fun2(x):
+def fun_exp(x):
     return math.e ** x
 
 
-expoVec = np.vectorize(fun2)
+expoVec = np.vectorize(fun_exp)
 
 
 def calculate_loss(model, X, y):
@@ -57,7 +57,7 @@ def build_model(X, y, nn_hdim, num_passes=20000, print_loss=False):
     return model
 
 def random_model(input_size, nn_hdim):
-    np.random.seed(1)
+    # np.random.seed(1)
     w1 = np.random.normal(size=(input_size, nn_hdim))
     b1= np.zeros(nn_hdim)
     # b1 = np.random.normal(size=nn_hdim)
