@@ -26,7 +26,7 @@ def plot_decision_boundary(pred_func, X, y):
 
 
 plt.figure(figsize=(16, 32))
-hidden_layer_dimensions = [3]
+hidden_layer_dimensions = [1,2,3,4]
 for i, nn_hdim in enumerate(hidden_layer_dimensions):
     plt.subplot(5, 2, i+1)
     plt.title('HiddenLayerSize%d' % nn_hdim)
